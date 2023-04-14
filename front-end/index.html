@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="utils.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <label for="plate">Vehicle Plate:</label>
+      <input type="text" id="plate" name="plate" maxlength="7" />
+
+      <label for="date">Service Date:</label>
+      <input type="date" id="date" name="date" value="" />
+
+      <label for="price">Price:</label>
+      <input type="number" name="price" id="price" value="0.00" />
+      <div class="buttons">
+        <button name="plus_ten" id="plus_ten" onclick="setPrice(10)">
+          +10
+        </button>
+        <button name="plus_fifty" id="plus_fifty" onclick="setPrice(50)">
+          +50
+        </button>
+        <button name="plus_hundred" id="plus_hundred" onclick="setPrice(100)">
+          +100
+        </button>
+      </div>
+      <label for="description">Description:</label>
+      <textarea type="text" id="description" name="description"></textarea>
+      <input type="submit" value="Submit" onclick="revisionOfValues()" />
+    </div>
+    <script>
+      setDateInputValue("date");
+    </script>
+  </body>
+</html>

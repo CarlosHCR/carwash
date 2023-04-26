@@ -1,14 +1,14 @@
-  const ERRORS = {
-    "INVALID_DATE": {
-      field: "date",
-      message: "A data deve conter apenas números e um ano maior que 2023.",
-    },
-    "INVALID_PLATE": { field: "plate", message: "A placa deve ter 7 caracteres." },
-    "INVALID_PRICE": {
-      field: "price",
-      message: "O preço deve estar entre R$0,01 e R$1.000,00.",
-    }
-  }
+const ERRORS = {
+  INVALID_DATE: {
+    field: "date",
+    message: "A data deve conter apenas números e um ano maior que 2023.",
+  },
+  INVALID_PLATE: { field: "plate", message: "A placa deve ter 7 caracteres." },
+  INVALID_PRICE: {
+    field: "price",
+    message: "O preço deve estar entre R$0,01 e R$1.000,00.",
+  },
+};
 
 function setDateInputValue(date) {
   const today = new Date();
@@ -32,31 +32,30 @@ function validateOfValues() {
   const date = document.getElementById("date").value;
 
   try {
-    const plateValid = validatePlate(plate)
-    const dateValid = validateDate(date)
-    const priceValid = validatePrice(price)
-    const response = request({plate, price, date})
+    const plateValid = validatePlate(plate);
+    const dateValid = validateDate(date);
+    const priceValid = validatePrice(price);
+    const response = request({ plate, price, date });
   } catch (err) {
-    showError(ERRORS[err.message])
+    showError(ERRORS[err.message]);
   }
- 
 }
 
 function validatePlate(plate) {
   plate = plate.replace(/ /g, "");
-  if (plate.length !== 7) throw new Error("INVALID_DATE")
+  if (plate.length !== 7) throw new Error("INVALID_PLATE");
 }
 
 function validateDate(date) {
   const year = date.split("-")[0];
-  if (date === "" || year < 2023) throw new Error("INVALID_DATE")
+  if (date === "" || year < 2023) throw new Error("INVALID_DATE");
 }
 
 function validatePrice(price) {
-  if (price < 0.01 || price > 1000) throw new Error("INVALID_PRICE")
+  if (price < 0.01 || price > 1000) throw new Error("INVALID_PRICE");
 }
 
-function showError({field, message}) {
+function showError({ field, message }) {
   const element = document.getElementById(field);
   element.classList.add("invalid");
   animateError(element);
@@ -83,16 +82,16 @@ function animateError(element) {
   );
 }
 
-async function request({plate, date, price}) {
+async function request({ plate, date, price }) {
   const description = document.getElementById("description").value;
 
   const data = {
-    plate: plate,
-    price: price,
+    plate,
+    price,
     service_date: date,
     service_description: description,
   };
-  
+
   try {
     const response = await fetch("http://localhost:8000/api/services/", {
       method: "POST",
@@ -100,8 +99,8 @@ async function request({plate, date, price}) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-    console.log("Success:", response.json());
+    });
+    console.log("Success:", await response.json());
   } catch (error) {
     console.error("Error:", error);
   }

@@ -35,7 +35,7 @@ function validateOfValues() {
     const plateValid = validatePlate(plate)
     const dateValid = validateDate(date)
     const priceValid = validatePrice(price)
-    const response = request()
+    const response = request({plate, price, date})
   } catch (err) {
     showError(ERRORS[err.message])
   }

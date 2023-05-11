@@ -6,12 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
     <link rel="stylesheet" href="style.css" />
-    <script src="utils.js"></script>
+    <script src="../utils.js"></script>
+    <script src="requests.js"></script>
   </head>
   <body>
+    <div id="navbar">
+      <script>
+        getNavBar();
+      </script>
+    </div>
     <div class="container">
+      <div class="register-confirm" id="register-confirm">
+        <h3>Cadastro realizado com sucesso!</h3>
+      </div>
       <label for="plate">Vehicle Plate:</label>
       <input type="text" id="plate" name="plate" maxlength="7" />
+
+      <div class="form-group">
+        <label for="plate">Service Type:</label>
+        <select id="report-type">
+          <option value="">Selecione o Tipo</option>
+
+          <script>
+            serviceRequest();
+          </script>
+        </select>
+      </div>
 
       <label for="date">Service Date:</label>
       <input type="date" id="date" name="date" value="" />

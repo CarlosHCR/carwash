@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  font-size: 30px;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+label {
+  margin-bottom: 10px;
+  text-align: center;
+}
+select,
+input,
+button {
+  height: 42px;
+  width: 300px;
+  font-size: 30px;
+  text-align: center;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+table {
+  display: none;
+  margin: 40px auto;
+  border-collapse: collapse;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+
+thead > tr {
+  background-color: green;
+  color: white;
+}
+
+tr > th,
+tr > td {
+  padding: 15px 20px;
+  text-align: center;
+}
+
+tbody {
+  background-color: white;
+}
+
+tbody > tr:nth-last-of-type(even) {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+tbody > tr:last-of-type {
+  border-bottom: 8px solid green;
+}
+
+h1 {
+  text-align: center;
+  margin: 10px 0;
+}
+
+button {
+  border-radius: 20px;
+  width: 200px;
+  background-color: green;
+  color: white;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+}

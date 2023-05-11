@@ -5,16 +5,17 @@ from django_filters import rest_framework as filters
 class CarWashFilter(filters.FilterSet):
 
     date = filters.DateFilter(method='filter_report')
+    year = filters.NumberFilter(field_name='date', lookup_expr='year')
+    day = filters.NumberFilter(field_name='date', lookup_expr='day')
+    month = filters.NumberFilter(field_name='date', lookup_expr='month')
 
     def filter_report(self, queryset, name, value):
-
         return queryset.filter(
-            service_date__month=value.month,
-            service_date__year=value.year
+            date__month=value.month,
+            date__year=value.year,
+            date__day=value.day
         )
 
     class Meta:
         model = CarWashService
-        fields = [
-            'date'
-        ]
+        fields = "__all__"

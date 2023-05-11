@@ -3,7 +3,7 @@ from django.db import models
 
 class LicensePlate(models.Model):
     number = models.CharField(
-        max_length=10,
+        max_length=7,
         unique=True
     )
 

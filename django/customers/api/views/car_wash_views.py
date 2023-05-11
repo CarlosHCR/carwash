@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from customers.models import CarWashService
 from ..serializers.car_wash_serializer import CarWashServiceSerializer
 from django_filters import rest_framework as filters
 from ..filters import CarWashFilter
-# Create your views here.
 
 
 class ServiceViewSet(viewsets.ModelViewSet):

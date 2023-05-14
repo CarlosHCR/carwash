@@ -1,8 +1,8 @@
-from .car_wash_service import CarWashService
+from .service import Service
 from .license_plate import LicensePlate
-from .service_type import ServiceType
+from .type import Type
 __all__ = [
-    CarWashService,
+    Service,
     LicensePlate,
-    ServiceType,
+    Type,
 ]

@@ -1,4 +1,4 @@
-from .car_wash_date import CarWashFilter
+from .service_date import ServiceFilter
 __all__ = [
-    CarWashFilter
+    ServiceFilter,
 ]

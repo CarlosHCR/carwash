@@ -1,19 +1,17 @@
 from django.db import models
 from .license_plate import LicensePlate
-from .service_type import ServiceType
+from .type import Type
 
 
-class CarWashService(models.Model):
+class Service(models.Model):
     license_plate = models.ForeignKey(
         LicensePlate,
         on_delete=models.CASCADE
     )
 
-    service_type = models.ForeignKey(
-        ServiceType,
+    type = models.ForeignKey(
+        Type,
         on_delete=models.CASCADE,
-        blank=True,
-        null=True
     )
 
     price = models.DecimalField(
@@ -26,4 +24,3 @@ class CarWashService(models.Model):
         null=True,
         blank=True
     )
-    

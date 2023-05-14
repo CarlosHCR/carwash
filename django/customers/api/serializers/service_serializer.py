@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from customers.models import CarWashService, LicensePlate, ServiceType
+from customers.models import Service, LicensePlate, Type
 from .license_plate import LicensePlateSerializer
-from .service_type import ServiceTypeSerializer
+from .type_serializer import TypeSerializer
 
 
-class CarWashServiceSerializer(serializers.ModelSerializer):
+class ServiceSerializer(serializers.ModelSerializer):
 
     plate = serializers.CharField(write_only=True)
 
@@ -21,15 +21,15 @@ class CarWashServiceSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         ret['license_plate'] = LicensePlateSerializer(
             instance.license_plate).data
-        ret['service_type'] = ServiceTypeSerializer(instance.service_type).data
+        ret['type'] = TypeSerializer(instance.type).data
         return ret
 
     class Meta:
-        model = CarWashService
+        model = Service
         fields = [
             'id',
             'plate',
-            'service_type',
+            'type',
             'price',
             'date',
             'description',

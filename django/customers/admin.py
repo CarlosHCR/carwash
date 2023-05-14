@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import LicensePlate, CarWashService, ServiceType
+from .models import LicensePlate, Service, Type
 
 
-class CarWashServiceAdmin(admin.ModelAdmin):
+class ServiceAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'license_plate',
-        'service_type',
+        'type',
         'price',
         'date',
         'description',
@@ -24,5 +24,5 @@ class CarWashServiceAdmin(admin.ModelAdmin):
 
 
 admin.site.register(LicensePlate)
-admin.site.register(ServiceType)
-admin.site.register(CarWashService, CarWashServiceAdmin)
+admin.site.register(Type)
+admin.site.register(Service, ServiceAdmin)

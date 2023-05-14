@@ -4,10 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Register</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="../utils.js"></script>
+    <script src="../utils/validate.js"></script>
     <script src="requests.js"></script>
+    <script src="../utils/db_type.js"></script>
+    <script src="../utils/db_service.js"></script>
+    <script src="../navbar/navbar.js"></script>
   </head>
   <body>
     <div id="navbar">
@@ -15,20 +18,16 @@
         getNavBar();
       </script>
     </div>
-    <div class="container">
-      <div class="register-confirm" id="register-confirm">
-        <h3>Cadastro realizado com sucesso!</h3>
-      </div>
+    <div class="container" id="container">
       <label for="plate">Vehicle Plate:</label>
       <input type="text" id="plate" name="plate" maxlength="7" />
 
       <div class="form-group">
         <label for="plate">Service Type:</label>
         <select id="report-type">
-          <option value="">Selecione o Tipo</option>
-
+          <option value="error">Selecione o Tipo</option>
           <script>
-            serviceRequest();
+            responseTypes();
           </script>
         </select>
       </div>

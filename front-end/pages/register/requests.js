@@ -46,54 +46,34 @@ function validateOfValues() {
     const type = validateType(serviceType);
     const dateValid = validateDate(date);
     const priceValid = validatePrice(price);
-    const response = request({ plate, type, price, date });
+    const response = requestService({ plate, type, price, date });
   } catch (err) {
     showError(ERRORS[err.message]);
   }
 }
 
-async function request({ plate, type, date, price }) {
-  const description = document.getElementById("description").value;
-  document.getElementById("register-confirm").style.display = "flex";
-  const data = {
-    plate,
-    service_type: type,
-    price,
-    date,
-    description: description,
-  };
-
+async function requestService({ plate, type, date, price }) {
   try {
-    const response = await fetch(`${ip}/api/services/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const description = document.getElementById("description").value;
+    setService({ plate, type, date, price, description });
     clearForm();
   } catch (error) {
-    console.error("Error:", error);
+    console.log(error);
   }
 }
 
-async function serviceRequest() {
+async function responseTypes() {
   try {
-    const response = await fetch(`${ip}/api/services_type/`);
-
-    if (response.ok) {
-      const services = await response.json();
-      SERVICES_TYPE = services;
-      const selectElement = document.getElementById("report-type");
-      services.forEach((service) => {
-        const optionElement = document.createElement("option");
-        optionElement.text = service.name;
-        selectElement.appendChild(optionElement);
-      });
-    } else {
-      throw new Error("Erro na requisição");
-    }
-  } catch (error) {
-    console.error("Error:", error);
+    const response = await getType();
+    SERVICES_TYPE = response;
+    validateResponse(response);
+    const selectElement = document.getElementById("report-type");
+    response.forEach((service) => {
+      const optionElement = document.createElement("option");
+      optionElement.text = service.name;
+      selectElement.appendChild(optionElement);
+    });
+  } catch (err) {
+    showError(ERRORS[err.message]);
   }
 }

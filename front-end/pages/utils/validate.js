@@ -12,22 +12,11 @@ const ERRORS = {
     field: "report-type",
     message: "Selecione um tipo de serviço válido.",
   },
+  INVALID_RESPONSE: { field: "container", message: "Erro na requisição." },
 };
 
 function getIp() {
-  return "http://10.10.166.50:8000";
-}
-
-async function getNavBar() {
-  const htmlResponse = await fetch("/navbar/nav.html");
-  const htmlData = await htmlResponse.text();
-  document.getElementById("navbar").innerHTML = htmlData;
-
-  const cssResponse = await fetch("/navbar/style.css");
-  const cssData = await cssResponse.text();
-  const styleElement = document.createElement("style");
-  styleElement.innerHTML = cssData;
-  document.head.appendChild(styleElement);
+  return "http://localhost:8000";
 }
 
 function validatePlate(plate) {
@@ -37,7 +26,7 @@ function validatePlate(plate) {
 
 function validateType(type) {
   const element = SERVICES_TYPE.find((element) => element.name === type);
-  if (element.id == null) throw new Error("INVALID_TYPE");
+  if (element === undefined) throw new Error("INVALID_TYPE");
   return element.id;
 }
 
@@ -48,6 +37,11 @@ function validateDate(date) {
 
 function validatePrice(price) {
   if (price < 0.01 || price > 1000) throw new Error("INVALID_PRICE");
+}
+
+function validateResponse(response) {
+  if (response === undefined || response.length === 0)
+    throw new Error("INVALID_RESPONSE");
 }
 
 function showError({ field, message }) {

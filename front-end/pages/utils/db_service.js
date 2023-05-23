@@ -1,8 +1,9 @@
 async function setService({ plate, type, date, price }) {
   const description = document.getElementById("description").value;
+  const type_id = validateType(type);
   const data = {
     plate: plate,
-    type: type,
+    type: type_id,
     date: date,
     price: price,
     description: description,
@@ -40,30 +41,31 @@ async function getServiceReports(date) {
 
 async function updateService({ id, plate, type, date, price }) {
   const description = document.getElementById("description").value;
+  const type_id = validateType(type);
   const data = {
     plate,
-    service_type: type,
+    type: type_id,
     price,
     date,
-    description: description,
+    description,
   };
   try {
-    const response = await fetch(`${ip}/api/services/${id}`, {
+    const response = await fetch(`${ip}/api/services/${id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
-    clearForm();
+    getSuccess("Sucesso em atualizar o serviço!");
   } catch (error) {
-    console.error("Error:", error);
+    getErro("Erro ao atualizar o serviço!" + error);
   }
 }
 
 async function deleteService(id) {
   try {
-    const response = await fetch(`${ip}/api/services/${id}`, {
+    const response = await fetch(`${ip}/api/services/${id}/`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

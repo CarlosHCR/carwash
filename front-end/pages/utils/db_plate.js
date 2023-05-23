@@ -26,7 +26,7 @@ async function getPlate() {
   }
 }
 
-async function updatePlate({ id, number }) {
+async function updatePlate( id, number ) {
   const data = {
     number,
   };

@@ -35,45 +35,21 @@ function clearForm() {
   document.querySelector("#description").value = "";
 }
 
-function validateOfValues() {
+function fieldsRegister() {
   const plate = document.getElementById("plate").value;
-  const serviceType = document.getElementById("report-type").value;
-  const price = parseFloat(document.getElementById("price").value);
+  const type = document.getElementById("report-type").value;
   const date = document.getElementById("date").value;
-
-  try {
-    const plateValid = validatePlate(plate);
-    const type = validateType(serviceType);
-    const dateValid = validateDate(date);
-    const priceValid = validatePrice(price);
-    const response = requestService({ plate, type, price, date });
-  } catch (err) {
-    showError(ERRORS[err.message]);
-  }
+  const price = parseFloat(document.getElementById("price").value);
+  return { plate, type, date, price };
 }
 
-async function requestService({ plate, type, date, price }) {
+async function requestService() {
   try {
-    const description = document.getElementById("description").value;
-    setService({ plate, type, date, price, description });
+    validateOfValues(fieldsRegister());
+    setService(fieldsRegister());
     clearForm();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function responseTypes() {
-  try {
-    const response = await getType();
-    SERVICES_TYPE = response;
-    validateResponse(response);
-    const selectElement = document.getElementById("report-type");
-    response.forEach((service) => {
-      const optionElement = document.createElement("option");
-      optionElement.text = service.name;
-      selectElement.appendChild(optionElement);
-    });
+    getSuccess("Cadastrado com sucesso!");
   } catch (err) {
-    showError(ERRORS[err.message]);
+    showError(err);
   }
 }

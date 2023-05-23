@@ -1,18 +1,17 @@
 const ERRORS = {
   INVALID_DATE: {
-    field: "date",
-    message: "A data deve conter apenas números e um ano maior que 2023.",
+    message: "A data deve ser válida.",
   },
   INVALID_PLATE: { field: "plate", message: "A placa deve ter 7 caracteres." },
   INVALID_PRICE: {
-    field: "price",
     message: "O preço deve estar entre R$0,01 e R$1.000,00.",
   },
   INVALID_TYPE: {
-    field: "report-type",
     message: "Selecione um tipo de serviço válido.",
   },
-  INVALID_RESPONSE: { field: "container", message: "Erro na requisição." },
+  INVALID_RESPONSE: {
+    message: "Erro na requisição. Verifique se os campos estão corretos.",
+  },
 };
 
 function getIp() {
@@ -32,7 +31,7 @@ function validateType(type) {
 
 function validateDate(date) {
   const year = date.split("-")[0];
-  if (date === "" || year < 2023) throw new Error("INVALID_DATE");
+  if (date == "" || year < 2023) throw new Error("INVALID_DATE");
 }
 
 function validatePrice(price) {
@@ -40,33 +39,37 @@ function validatePrice(price) {
 }
 
 function validateResponse(response) {
-  if (response === undefined || response.length === 0)
-    throw new Error("INVALID_RESPONSE");
+  if (!Array.isArray(response)) throw new Error("INVALID_RESPONSE");
 }
 
-function showError({ field, message }) {
-  const element = document.getElementById(field);
-  element.classList.add("invalid");
-  animateError(element);
-  alert(message);
+function validateOfValues({ plate, type, date, price }) {
+  try {
+    validatePlate(plate);
+    validateType(type);
+    validateDate(date);
+    validatePrice(price);
+  } catch (err) {
+    throw err;
+  }
 }
 
-function animateError(element) {
-  element.animate(
-    [
-      { transform: "translateX(-10px)" },
-      { transform: "translateX(10px)" },
-      { transform: "translateX(-10px)" },
-      { transform: "translateX(10px)" },
-      { transform: "translateX(-10px)" },
-      { transform: "translateX(10px)" },
-      { transform: "translateX(-10px)" },
-      { transform: "translateX(10px)" },
-      { transform: "translateX(0px)" },
-    ],
-    {
-      duration: 1000,
-      easing: "ease-in-out",
-    }
-  );
+function showError(err) {
+  const errorMessage = err.message;
+  const message = ERRORS[errorMessage].message;
+  getErro(message);
+}
+
+function getSuccess(message) {
+  Swal.fire({
+    icon: "success",
+    title: message,
+  });
+}
+
+function getErro(message) {
+  Swal.fire({
+    title: "Erro!",
+    text: message,
+    icon: "error",
+  });
 }

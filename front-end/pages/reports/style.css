@@ -144,6 +144,10 @@ textarea,
   color: black !important;
 }
 
+.fa-trash {
+  color: rgba(255, 0, 0, 0.829) !important;
+}
+
 i:hover {
   cursor: pointer;
 }

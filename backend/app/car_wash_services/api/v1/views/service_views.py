@@ -1,7 +1,7 @@
 ###
 # Libs
 ###
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from django_filters import rest_framework as filters
 from app.car_wash_services.models.service import Service
 from app.car_wash_services.api.v1.serializers.service.default import DefaultServiceSerializer
@@ -18,6 +18,7 @@ class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ServiceFilter
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action == 'create':

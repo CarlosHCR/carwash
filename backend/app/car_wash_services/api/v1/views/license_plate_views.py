@@ -2,7 +2,7 @@
 # Libs
 ###
 from app.car_wash_services.models.license_plate import LicensePlate
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from app.car_wash_services.api.v1.serializers.license_plate.default import DefaultLicensePlateSerializer
 
 ###
@@ -13,3 +13,4 @@ from app.car_wash_services.api.v1.serializers.license_plate.default import Defau
 class LicensePlateViewSet(viewsets.ModelViewSet):
     queryset = LicensePlate.objects.all()
     serializer_class = DefaultLicensePlateSerializer
+    permission_classes = (permissions.IsAuthenticated,)

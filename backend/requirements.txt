@@ -1,6 +1,0 @@
-django==4.2.2
-djangorestframework==3.14.0
-django-cors-headers==3.14.0
-django_filter==23.1
-django-rest-auth[with_social]==0.9.5
-django-dotenv==1.4.2

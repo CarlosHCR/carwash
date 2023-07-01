@@ -6,6 +6,12 @@ pycache/
 # C extensions
 *.so
 
+# Vscode
+.vscode/
+
+# dbsqlite3
+db.sqlite3
+
 # Distribution / packaging
 .Python
 env/

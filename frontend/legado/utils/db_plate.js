@@ -1,10 +1,10 @@
-async function setType({ name }) {
+async function setPlate({ name }) {
   const data = {
     name,
   };
 
   try {
-    const response = await fetch(`${ip}/api/type/`, {
+    const response = await fetch(`${ip}/api/v1/plates/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -16,22 +16,23 @@ async function setType({ name }) {
   }
 }
 
-async function getType() {
+async function getPlate() {
   try {
-    const response = await fetch(`${ip}/api/type/`);
+    const response = await fetch(`${ip}/api/v1/plates/`);
+    validateResponse(response);
     return response.json();
   } catch (err) {
-    console.log(err);
+    showError(ERRORS[err.message]);
   }
 }
 
-async function updateType({ id, name }) {
+async function updatePlate( id, number ) {
   const data = {
-    name,
+    number,
   };
 
   try {
-    const response = await fetch(`${ip}/api/type/${id}`, {
+    const response = await fetch(`${ip}/api/v1/plates/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -43,9 +44,9 @@ async function updateType({ id, name }) {
   }
 }
 
-async function deleteType(id) {
+async function deletePlate({ id }) {
   try {
-    const response = await fetch(`${ip}/api/type/${id}`, {
+    const response = await fetch(`${ip}/api/v1/plates/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

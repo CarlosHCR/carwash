@@ -8,7 +8,6 @@ async function setService({
   price,
   description,
 }) {
-  console.log(plate, selectedService, date, price, description);
   const data = {
     plate: plate,
     type: selectedService,
@@ -27,16 +26,21 @@ async function setService({
     });
     return response;
   } catch (error) {
-    console.error("Error:", error);
+    throw error;
   }
 }
 
 async function getService() {
   try {
-    const response = await fetch(`${API_URL}/services/`);
+    const response = await fetch(`${API_URL}/services/`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+    });
     return response.json();
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -66,6 +70,7 @@ async function updateService({ id, plate, type, date, price }) {
       },
       body: JSON.stringify(data),
     });
+    return response;
   } catch (error) {
     console.log(error);
   }
@@ -79,6 +84,7 @@ async function deleteService(id) {
         "Content-Type": "application/json",
       },
     });
+    return response;
   } catch (error) {
     console.error("Error:", error);
   }

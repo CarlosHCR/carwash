@@ -28,8 +28,6 @@ input {
   background-color: green;
 }
 
-.btn-primary,
-.btn-secondary:hover {
-  background-color: #3e8e41;
+.btn-primary:hover {
+  background-color: darkgreen;
 }
-

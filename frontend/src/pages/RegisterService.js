@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Navbar from "../components/Navbar";
 import ModalMessage from "../components/ModalMessage";
-import "../styles/RegisterService.css";
 import { getType } from "../endpoints/db_type";
 import { setService } from "../endpoints/db_service";
+import "../styles/RegisterService.css";
 
 function RegisterServicePage() {
   const [plate, setPlate] = useState("");
@@ -21,7 +21,7 @@ function RegisterServicePage() {
     async function fetchServiceTypes() {
       try {
         const response = await getType();
-        setServiceTypes(response.results);
+        setServiceTypes(response);
       } catch (error) {
         console.error(error);
       }
@@ -50,46 +50,47 @@ function RegisterServicePage() {
   };
 
   const handleSubmit = async () => {
-    if (validateForm()) {
-      try {
-        const response = await setService({
-          plate,
-          selectedService,
-          date,
-          price,
-          description,
-        });
-        if (response.ok) {
-          setModalTitle("Sucesso");
-          setModalMessage("O serviço foi criado com sucesso!");
-          resetForm();
-        } else {
-          setModalTitle("Erro");
-          setModalMessage("Ocorreu um erro ao cadastrar o serviço.");
-        }
+    try {
+      if (!validateForm()) throw new Error("Campos não preenchidos");
+      const response = await setService({
+        plate,
+        selectedService,
+        date,
+        price,
+        description,
+      });
+
+      if (response.ok) {
+        setModalTitle("Sucesso");
+        setModalMessage("O serviço foi cadastrado com sucesso!");
         setModalShow(true);
-      } catch (error) {
-        setModalTitle("Erro");
-        setModalMessage("Ocorreu um erro ao criar o aluno.");
-        setModalShow(true);
+        resetForm();
+      } else {
+        throw new Error("");
       }
+    } catch (error) {
+      handleModalError(error);
     }
   };
 
-  const validateForm = () => {
-    if (!plate || !selectedService || !date || !price) {
-      setModalTitle("Erro");
-      setModalMessage("Todos os campos devem ser preenchidos.");
-      setModalShow(true);
-      return false;
+  const validateForm = () => plate && selectedService && date && price;
+
+  const handleModalError = (error) => {
+    var erroMessage;
+    if (error.message === "Campos não preenchidos") {
+      erroMessage = "Preencha todos os campos";
+    } else {
+      erroMessage = "Ocorreu um erro ao cadastrar o serviço.";
     }
-    return true;
+    setModalTitle("Erro");
+    setModalMessage(erroMessage);
+    setModalShow(true);
   };
 
   const resetForm = () => {
     setPlate("");
     setSelectedService("");
-    setDate("");
+    setDate(moment().format("YYYY-MM-DD"));
     setPrice(0);
     setDescription("");
   };
@@ -143,11 +144,12 @@ function RegisterServicePage() {
             onChange={handleServiceChange}
           >
             <option value="error">Selecione o serviço</option>
-            {serviceTypes.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
+            {serviceTypes &&
+              serviceTypes.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
           </select>
         </div>
         <div className="form-group">

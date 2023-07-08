@@ -3,16 +3,12 @@ import Navbar from "../components/Navbar";
 import "../styles/ReportsService.css";
 import { getService } from "../endpoints/db_service";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import ModalMessage from "../components/ModalMessage";
-
+import { getErro } from "../utils/utils";
 
 function ReportsService() {
   const [reports, setReports] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalService, setTotalService] = useState(0);
-  const [modalShow, setModalShow] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,10 +19,8 @@ function ReportsService() {
           response.reduce((acc, { price }) => acc + parseFloat(price), 0)
         );
         setTotalService(response.length > 0 ? response.length : 0);
-      } catch (error) {
-        setModalTitle("Erro");
-        setModalMessage("Erro ao carregar os serviços contate o suporte");
-        setModalShow(true);
+      } catch {
+        getErro("Erro ao carregar os serviços contate o suporte");
       }
     };
 
@@ -76,12 +70,6 @@ function ReportsService() {
           </tbody>
         </table>
       </div>
-      <ModalMessage
-        show={modalShow}
-        onClose={() => setModalShow(false)}
-        title={modalTitle}
-        message={modalMessage}
-      />
     </div>
   );
 }

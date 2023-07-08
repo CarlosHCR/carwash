@@ -110,90 +110,92 @@ function RegisterServicePage() {
   return (
     <div className="registerServicePage">
       <Navbar />
-      <div className="container" id="container">
-        <label className="label-form" htmlFor="plate">
-          Placa do veículo
-        </label>
-        <input
-          type="text"
-          id="plate"
-          name="plate"
-          maxLength={7}
-          value={plate}
-          onChange={handlePlateChange}
-        />
-        <label className="label-form" htmlFor="plate">
-          Serviço realizado
-        </label>
-        <select
-          id="report-type"
-          value={selectedService}
-          onChange={handleServiceChange}
-        >
-          <option value="error">Selecione o serviço</option>
-          {serviceTypes &&
-            serviceTypes.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-        </select>
-        <label className="label-form" htmlFor="date">
-          Data do serviço
-        </label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          value={date}
-          onChange={handleDateChange}
-        />
-        <label className="label-form" htmlFor="price">
-          Preço do serviço
-        </label>
-        <input
-          type="number"
-          name="price"
-          id="price"
-          value={price}
-          onChange={handlePriceChange}
-        />
-        <div className="buttons">
-          <button name="plus_ten" id="plus_ten" onClick={handlePlusTenClick}>
-            +10
-          </button>
-          <button
-            name="plus_fifty"
-            id="plus_fifty"
-            onClick={handlePlusFiftyClick}
-          >
-            +50
-          </button>
-          <button
-            name="plus_hundred"
-            id="plus_hundred"
-            onClick={handlePlusHundredClick}
-          >
-            +100
-          </button>
-        </div>
-        <label className="label-form" htmlFor="description">
-          Descrição:
-        </label>
-        <textarea
-          type="text"
-          id="description"
-          name="description"
-          value={description}
-          onChange={handleDescriptionChange}
-        ></textarea>
-        <div className="btn_form">
+      <div className="containers" id="containers">
+        <div className="container" id="container">
+          <label className="label-form" htmlFor="plate">
+            Placa do veículo
+          </label>
           <input
-            id="submit_btn"
-            type="submit"
-            value="Submit"
-            onClick={handleSubmit}
+            type="text"
+            id="plate"
+            name="plate"
+            maxLength={7}
+            value={plate}
+            onChange={handlePlateChange}
           />
+          <label className="label-form" htmlFor="plate">
+            Serviço realizado
+          </label>
+          <select
+            id="report-type"
+            value={selectedService}
+            onChange={handleServiceChange}
+          >
+            <option value="error">Selecione o serviço</option>
+            {serviceTypes &&
+              serviceTypes.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </select>
+          <label className="label-form" htmlFor="date">
+            Data do serviço
+          </label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={date}
+            onChange={handleDateChange}
+          />
+          <label className="label-form" htmlFor="price">
+            Preço do serviço
+          </label>
+          <input
+            type="number"
+            name="price"
+            id="price"
+            value={price}
+            onChange={handlePriceChange}
+          />
+          <div className="buttons">
+            <button name="plus_ten" id="plus_ten" onClick={handlePlusTenClick}>
+              +10
+            </button>
+            <button
+              name="plus_fifty"
+              id="plus_fifty"
+              onClick={handlePlusFiftyClick}
+            >
+              +50
+            </button>
+            <button
+              name="plus_hundred"
+              id="plus_hundred"
+              onClick={handlePlusHundredClick}
+            >
+              +100
+            </button>
+          </div>
+          <label className="label-form" htmlFor="description">
+            Descrição:
+          </label>
+          <textarea
+            type="text"
+            id="description"
+            name="description"
+            value={description}
+            onChange={handleDescriptionChange}
+          ></textarea>
+          <div className="btn_form">
+            <input
+              id="submit_btn"
+              type="submit"
+              value="Submit"
+              onClick={handleSubmit}
+            />
+          </div>
         </div>
       </div>
     </div>

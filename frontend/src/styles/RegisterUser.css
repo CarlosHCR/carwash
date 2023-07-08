@@ -4,8 +4,14 @@
   box-sizing: border-box;
 }
 
+.containers {
+  width: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .container {
-  max-width: 400px !important;
+  width: 35% !important;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -59,7 +65,7 @@ button:hover {
   background-color: #3e8e41;
 }
 
-.btn_form{
+.btn_form {
   margin-top: 10px;
   display: flex;
   align-items: center;

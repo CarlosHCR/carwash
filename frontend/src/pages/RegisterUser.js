@@ -90,49 +90,51 @@ const UserForm = () => {
   return (
     <div className="UserForm">
       <Navbar />
-      <div className="container" id="container">
-        <label className="label-form">Email </label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <label className="label-form">Confirme o Email</label>
-        <input
-          type="email"
-          name="email2"
-          value={formData.email2}
-          onChange={handleChange}
-        />
-        <label className="label-form">Senha</label>
-        <input
-          type="password"
-          name="password1"
-          value={formData.password1}
-          onChange={handleChange}
-        />
-        <label className="label-form">Confirme a Senha</label>
-        <input
-          type="password"
-          name="password2"
-          value={formData.password2}
-          onChange={handleChange}
-        />
-        <label className="label-form">Nome de Usuário</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-        <div className="btn_form">
+      <div className="containers" id="containers">
+        <div className="container" id="container">
+          <label className="label-form">Email </label>
           <input
-            id="submit_btn"
-            type="submit"
-            value="Submit"
-            onClick={handleSubmit}
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
           />
+          <label className="label-form">Confirme o Email</label>
+          <input
+            type="email"
+            name="email2"
+            value={formData.email2}
+            onChange={handleChange}
+          />
+          <label className="label-form">Senha</label>
+          <input
+            type="password"
+            name="password1"
+            value={formData.password1}
+            onChange={handleChange}
+          />
+          <label className="label-form">Confirme a Senha</label>
+          <input
+            type="password"
+            name="password2"
+            value={formData.password2}
+            onChange={handleChange}
+          />
+          <label className="label-form">Nome de Usuário</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+          <div className="btn_form">
+            <input
+              id="submit_btn"
+              type="submit"
+              value="Submit"
+              onClick={handleSubmit}
+            />
+          </div>
         </div>
       </div>
     </div>

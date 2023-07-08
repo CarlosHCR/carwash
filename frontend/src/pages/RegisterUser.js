@@ -1,180 +1,141 @@
 import React, { useState } from "react";
-import ModalMessage from "../components/ModalMessage";
+import Navbar from "../components/Navbar";
 import { setUserDB } from "../endpoints/db_user";
+import "../styles/RegisterUser.css";
+import { ERRORS, getSuccess, getErro } from "../utils/utils";
 
 const UserForm = () => {
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [email, setEmail] = useState("");
-  const [email2, setEmail2] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [modalShow, setModalShow] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
+  const [formData, setFormData] = useState({
+    password1: "",
+    password2: "",
+    email: "",
+    email2: "",
+    username: "",
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    switch (name) {
-      case "username":
-        setUsername(value);
-        break;
-      case "firstName":
-        setFirstName(value);
-        break;
-      case "lastName":
-        setLastName(value);
-        break;
-      default:
-        break;
-    }
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
       if (!validateForm()) {
-        throw new Error("Preencha todos os campos");
+        throw new Error("EMPTY_FIELDS");
       }
-      if (email !== email2) {
-        throw new Error("Emails não coincidem");
+      if (formData.email !== formData.email2) {
+        throw new Error("EMAILS_NOT_MATCH");
       }
-      if (password1 !== password2) {
-        throw new Error("Senhas não coincidem");
+      if (formData.password1 !== formData.password2) {
+        throw new Error("PASSWORD_NOT_MATCH");
       }
-
-      const saveUser = setUserDB({
-        password1,
-        password2,
-        email,
-        username,
-        firstName,
-        lastName,
-      });
-      console.log(saveUser);
-
-      setModalTitle("Sucesso");
-      setModalMessage("Usuário cadastrado com sucesso");
-      setModalShow(true);
-
-      clearForm();
+      const response = await setUserDB(formData);
+      if (response.ok) {
+        getSuccess("Usuário cadastrado com sucesso!");
+        clearForm();
+      } else {
+        checkEmailAndUsername(response);
+      }
     } catch (error) {
-      console.log(error);
-      setModalTitle("Erro");
-      setModalMessage(error.message);
-      setModalShow(true);
+      if (ERRORS[error.message]) {
+        getErro(ERRORS[error.message].message);
+      } else {
+        getErro("Ocorreu um erro inesperado.");
+      }
     }
   };
 
+  function checkEmailAndUsername(response) {
+    const emailError = "A user is already registered with this e-mail address.";
+    const usernameError = "A user with that username already exists.";
+    const emailErrors = Array.isArray(response.email)
+      ? response.email
+      : [response.email];
+    const usernameErrors = Array.isArray(response.username)
+      ? response.username
+      : [response.username];
+    if (
+      emailErrors.includes(emailError) &&
+      usernameErrors.includes(usernameError)
+    ) {
+      throw new Error("EMAIL_AND_USERNAME_ALREADY_EXISTS");
+    } else if (emailErrors.includes(emailError)) {
+      throw new Error("EMAIL_ALREADY_EXISTS");
+    } else if (usernameErrors.includes(usernameError)) {
+      throw new Error("USERNAME_ALREADY_EXISTS");
+    } else {
+      throw new Error("REGISTER_USER");
+    }
+  }
+
   const validateForm = () =>
-    password1 && password2 && email && username && firstName && lastName;
+    formData.password1 &&
+    formData.password2 &&
+    formData.email &&
+    formData.username;
 
   const clearForm = () => {
-    setPassword1("");
-    setPassword2("");
-    setEmail("");
-    setEmail2("");
-    setFirstName("");
-    setLastName("");
-    setUsername("");
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleConfirmEmailChange = (event) => {
-    setEmail2(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword1(event.target.value);
-  };
-
-  const handleConfirmPasswordChange = (event) => {
-    setPassword2(event.target.value);
+    setFormData({
+      password1: "",
+      password2: "",
+      email: "",
+      email2: "",
+      username: "",
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Email:
+    <div className="UserForm">
+      <Navbar />
+      <div className="container" id="container">
+        <label className="label-form">Email </label>
         <input
           type="email"
           name="email"
-          value={email}
-          onChange={handleEmailChange}
+          value={formData.email}
+          onChange={handleChange}
         />
-      </label>
-      <label>
-        Confirme o Email:
+        <label className="label-form">Confirme o Email</label>
         <input
           type="email"
-          name="confirmEmail"
-          value={email2}
-          onChange={handleConfirmEmailChange}
+          name="email2"
+          value={formData.email2}
+          onChange={handleChange}
         />
-      </label>
-      <label>
-        Senha:
+        <label className="label-form">Senha</label>
         <input
           type="password"
-          name="password"
-          value={password1}
-          onChange={handlePasswordChange}
+          name="password1"
+          value={formData.password1}
+          onChange={handleChange}
         />
-      </label>
-      <label>
-        Confirme a Senha:
+        <label className="label-form">Confirme a Senha</label>
         <input
           type="password"
           name="password2"
-          value={password2}
-          onChange={handleConfirmPasswordChange}
+          value={formData.password2}
+          onChange={handleChange}
         />
-      </label>
-      <br />
-      <br />
-      <label>
-        Nome de Usuário:
+        <label className="label-form">Nome de Usuário</label>
         <input
           type="text"
           name="username"
-          value={username}
+          value={formData.username}
           onChange={handleChange}
         />
-      </label>
-      <br />
-      <label>
-        Nome:
-        <input
-          type="text"
-          name="firstName"
-          value={firstName}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Sobrenome:
-        <input
-          type="text"
-          name="lastName"
-          value={lastName}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <br />
-      <button type="submit">Submit</button>
-      <ModalMessage
-        show={modalShow}
-        onClose={() => setModalShow(false)}
-        title={modalTitle}
-        message={modalMessage}
-      />
-    </form>
+        <div className="btn_form">
+          <input
+            id="submit_btn"
+            type="submit"
+            value="Submit"
+            onClick={handleSubmit}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 

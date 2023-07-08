@@ -5,7 +5,7 @@
 }
 
 .container {
-  max-width: 400px;
+  max-width: 400px !important;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -19,22 +19,14 @@
   text-align: center;
 }
 
-input[type="text"],
-input[type="date"] {
+input[type="email"],
+input[type="password"],
+input[type="text"] {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
   box-sizing: border-box;
-}
-
-input[type="number"]#price {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  box-sizing: border-box;
-  height: 38px;
 }
 
 input[type="submit"] {
@@ -52,13 +44,6 @@ input[type="submit"]:hover {
   background-color: #3e8e41;
 }
 
-textarea {
-  min-width: 100%;
-  max-width: 100%;
-  max-height: 100px;
-  min-height: 100px;
-}
-
 button {
   background-color: green;
   color: white;
@@ -74,38 +59,9 @@ button:hover {
   background-color: #3e8e41;
 }
 
-.buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 15px;
-}
-
-#report-type {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  box-sizing: border-box;
-}
-
-.btn_form {
+.btn_form{
   margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-@media (max-width: 260px) {
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1px;
-  }
-
-  #plus_fifty,
-  #plus_hundred {
-    margin-top: 10px;
-  }
 }

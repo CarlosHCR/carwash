@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Navbar from "../components/Navbar";
-import ModalMessage from "../components/ModalMessage";
 import { getType } from "../endpoints/db_type";
 import { setService } from "../endpoints/db_service";
 import "../styles/RegisterService.css";
+import { ERRORS, getSuccess, getErro } from "../utils/utils";
 
 function RegisterServicePage() {
   const [plate, setPlate] = useState("");
@@ -13,9 +13,6 @@ function RegisterServicePage() {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [serviceTypes, setServiceTypes] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     async function fetchServiceTypes() {
@@ -51,7 +48,7 @@ function RegisterServicePage() {
 
   const handleSubmit = async () => {
     try {
-      if (!validateForm()) throw new Error("Campos não preenchidos");
+      if (!validateForm()) throw new Error("EMPTY_FIELDS");
       const response = await setService({
         plate,
         selectedService,
@@ -59,33 +56,22 @@ function RegisterServicePage() {
         price,
         description,
       });
-
       if (response.ok) {
-        setModalTitle("Sucesso");
-        setModalMessage("O serviço foi cadastrado com sucesso!");
-        setModalShow(true);
+        getSuccess("Serviço cadastrado com sucesso!");
         resetForm();
       } else {
-        throw new Error("");
+        throw new Error("REGISTER_SERVICE");
       }
     } catch (error) {
-      handleModalError(error);
+      if (ERRORS[error.message]) {
+        getErro(ERRORS[error.message].message);
+      } else {
+        getErro("Ocorreu um erro inesperado.");
+      }
     }
   };
 
   const validateForm = () => plate && selectedService && date && price;
-
-  const handleModalError = (error) => {
-    var erroMessage;
-    if (error.message === "Campos não preenchidos") {
-      erroMessage = "Preencha todos os campos";
-    } else {
-      erroMessage = "Ocorreu um erro ao cadastrar o serviço.";
-    }
-    setModalTitle("Erro");
-    setModalMessage(erroMessage);
-    setModalShow(true);
-  };
 
   const resetForm = () => {
     setPlate("");
@@ -125,83 +111,83 @@ function RegisterServicePage() {
     <div className="registerServicePage">
       <Navbar />
       <div className="container" id="container">
-        <div className="form-group">
-          <label htmlFor="plate">Placa do veículo</label>
-          <input
-            type="text"
-            id="plate"
-            name="plate"
-            maxLength={7}
-            value={plate}
-            onChange={handlePlateChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="plate">Serviço realizado</label>
-          <select
-            id="report-type"
-            value={selectedService}
-            onChange={handleServiceChange}
+        <label className="label-form" htmlFor="plate">
+          Placa do veículo
+        </label>
+        <input
+          type="text"
+          id="plate"
+          name="plate"
+          maxLength={7}
+          value={plate}
+          onChange={handlePlateChange}
+        />
+        <label className="label-form" htmlFor="plate">
+          Serviço realizado
+        </label>
+        <select
+          id="report-type"
+          value={selectedService}
+          onChange={handleServiceChange}
+        >
+          <option value="error">Selecione o serviço</option>
+          {serviceTypes &&
+            serviceTypes.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+        </select>
+        <label className="label-form" htmlFor="date">
+          Data do serviço
+        </label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value={date}
+          onChange={handleDateChange}
+        />
+        <label className="label-form" htmlFor="price">
+          Preço do serviço
+        </label>
+        <input
+          type="number"
+          name="price"
+          id="price"
+          value={price}
+          onChange={handlePriceChange}
+        />
+        <div className="buttons">
+          <button name="plus_ten" id="plus_ten" onClick={handlePlusTenClick}>
+            +10
+          </button>
+          <button
+            name="plus_fifty"
+            id="plus_fifty"
+            onClick={handlePlusFiftyClick}
           >
-            <option value="error">Selecione o serviço</option>
-            {serviceTypes &&
-              serviceTypes.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-          </select>
+            +50
+          </button>
+          <button
+            name="plus_hundred"
+            id="plus_hundred"
+            onClick={handlePlusHundredClick}
+          >
+            +100
+          </button>
         </div>
-        <div className="form-group">
-          <label htmlFor="date">Data do serviço</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={date}
-            onChange={handleDateChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="price">Preço do serviço</label>
-          <input
-            type="number"
-            name="price"
-            id="price"
-            value={price}
-            onChange={handlePriceChange}
-          />
-          <div className="buttons">
-            <button name="plus_ten" id="plus_ten" onClick={handlePlusTenClick}>
-              +10
-            </button>
-            <button
-              name="plus_fifty"
-              id="plus_fifty"
-              onClick={handlePlusFiftyClick}
-            >
-              +50
-            </button>
-            <button
-              name="plus_hundred"
-              id="plus_hundred"
-              onClick={handlePlusHundredClick}
-            >
-              +100
-            </button>
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Descrição:</label>
-          <textarea
-            type="text"
-            id="description"
-            name="description"
-            value={description}
-            onChange={handleDescriptionChange}
-          ></textarea>
-        </div>
-        <div className="form-group">
+        <label className="label-form" htmlFor="description">
+          Descrição:
+        </label>
+        <textarea
+          type="text"
+          id="description"
+          name="description"
+          value={description}
+          onChange={handleDescriptionChange}
+        ></textarea>
+        <div className="btn_form">
           <input
             id="submit_btn"
             type="submit"
@@ -210,12 +196,6 @@ function RegisterServicePage() {
           />
         </div>
       </div>
-      <ModalMessage
-        show={modalShow}
-        onClose={() => setModalShow(false)}
-        title={modalTitle}
-        message={modalMessage}
-      />
     </div>
   );
 }

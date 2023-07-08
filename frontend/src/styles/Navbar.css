@@ -6,6 +6,7 @@
 }
 
 .navbar {
+  width: 100%;
   background-color: #333;
   padding: 0 !important;
 }
@@ -32,9 +33,10 @@ a:hover {
   color: black !important;
 }
 
-@media (max-width: 365px) {
+@media (max-width: 500px) {
   .navbar-ul {
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 }

@@ -13,4 +13,4 @@ from app.car_wash_services.api.v1.serializers.license_plate.default import Defau
 class LicensePlateViewSet(viewsets.ModelViewSet):
     queryset = LicensePlate.objects.all()
     serializer_class = DefaultLicensePlateSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)

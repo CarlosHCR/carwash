@@ -23,7 +23,6 @@ from app.accounts.models.change_email_request import (
 )
 from app.accounts.api.v1.serializers.accounts.default import ChangeEmailSerializer
 
-
 ###
 # Filters
 ###
@@ -91,10 +90,7 @@ class ChangeEmailConfirmationViewSet(generics.GenericAPIView):
         with transaction.atomic():
             user = change_request.user
             user.email = change_request.email
-            allauth_email = user.emailaddress_set.first()
-            allauth_email.email = change_request.email
             user.save(update_fields=['email'])
-            allauth_email.save(update_fields=['email'])
             user.auth_token.delete()
 
             change_request.delete()

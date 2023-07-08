@@ -21,16 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t82^g%m20i+4d0^oiffcyw^zn2yn1-$jism$=87)qy#mh7%0f!'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '192.168.0.2',
-    'http://10.10.166.50',
+    '192.168.0.9',
     '*'
 ]
 
@@ -157,9 +154,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
-    'http://10.10.166.50',
-    # 'http://192.168.0.2'
+    'http://192.168.0.9'
 ]
+###
+# Rest Framework
+###
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 20
+}
 
 ###
 # Authentication
@@ -199,3 +208,5 @@ LOAD_ENVS_FROM_FILE = True if os.environ.get(
 ###
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+FE_URL = os.environ.get('FE_URL')

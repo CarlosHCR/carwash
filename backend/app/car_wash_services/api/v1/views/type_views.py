@@ -13,4 +13,4 @@ from app.car_wash_services.api.v1.serializers.type.default import DefaultTypeSer
 class TypeViewSet(viewsets.ModelViewSet):
     queryset = Type.objects.all()
     serializer_class = DefaultTypeSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)

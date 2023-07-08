@@ -6,6 +6,6 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /code
 
 COPY requirements.txt /code/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r --use-pep517 requirements.txt
 
 COPY . /code/

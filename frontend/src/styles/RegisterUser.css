@@ -11,7 +11,7 @@
   justify-content: center;
 }
 .container {
-  width: 35% !important;
+  width: 400px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -70,4 +70,10 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 500px) {
+  .container {
+    width: 90%;
+  }
 }

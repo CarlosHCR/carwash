@@ -13,7 +13,7 @@
   display: flex;
 }
 
-.navbar-ul {
+.navbar-nav {
   width: 100%;
   font-size: 27px;
   display: flex;
@@ -22,12 +22,12 @@
   justify-content: space-evenly;
 }
 
-.navbar-li {
+.nav-item {
   display: flex;
   align-items: center;
 }
 
-a {
+.nav-link {
   color: white !important;
 }
 

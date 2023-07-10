@@ -33,7 +33,7 @@ const UserForm = () => {
         throw new Error("PASSWORD_NOT_MATCH");
       }
       const response = await setUserDB(formData);
-      if (response.ok) {
+      if (response.key!==undefined && response.key!==null) {
         getSuccess("Usuário cadastrado com sucesso!");
         clearForm();
       } else {

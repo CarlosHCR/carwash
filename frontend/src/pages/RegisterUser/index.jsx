@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
-import { setUserDB } from "../endpoints/db_user";
-import "../styles/RegisterUser.css";
-import { ERRORS, getSuccess, getErro } from "../utils/utils";
+import { setUserDB } from "../../endpoints/db_user";
+import { ERRORS, getSuccess, getErro } from "../../utils/utils";
 
-const UserForm = () => {
+const RegisterUser = () => {
   const [formData, setFormData] = useState({
     password1: "",
     password2: "",
@@ -89,7 +87,6 @@ const UserForm = () => {
 
   return (
     <div className="UserForm">
-      <Navbar />
       <div className="containers" id="containers">
         <div className="container" id="container">
           <label className="label-form">Email </label>
@@ -141,4 +138,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default RegisterUser;

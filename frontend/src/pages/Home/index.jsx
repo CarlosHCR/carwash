@@ -1,12 +1,9 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import "../styles/Homepage.css";
-import "../styles/styles.css";
+import "./Home.module.css";
 
-function HomePage() {
+function Home() {
   return (
-    <div className="homePage">
-      <Navbar />
+    <div className="home">
       <div className="content">
         <h1 className="title">Estética e Lavação Automotiva</h1>
         <p>Bem-vindo à estética e lavação automotiva Calico!</p>
@@ -15,4 +12,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Home;

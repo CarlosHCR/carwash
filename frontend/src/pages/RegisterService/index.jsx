@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import Navbar from "../components/Navbar";
-import { getType } from "../endpoints/db_type";
-import { setService } from "../endpoints/db_service";
-import "../styles/RegisterService.css";
-import { ERRORS, getSuccess, getErro } from "../utils/utils";
+import { getType } from "../../endpoints/db_type";
+import { setService } from "../../endpoints/db_service";
+import "./RegisterService.css";
+import { ERRORS, getSuccess, getErro } from "../../utils/utils";
 
 function RegisterServicePage() {
   const [plate, setPlate] = useState("");
@@ -109,7 +108,6 @@ function RegisterServicePage() {
 
   return (
     <div className="registerServicePage">
-      <Navbar />
       <div className="containers" id="containers">
         <div className="container" id="container">
           <label className="label-form" htmlFor="plate">

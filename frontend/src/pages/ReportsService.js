@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import "../styles/ReportsService.css";
 import { getService } from "../endpoints/db_service";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -29,7 +28,6 @@ function ReportsService() {
 
   return (
     <div>
-      <Navbar />
       <h1>Relatório</h1>
       <div className="reports-container" id="reports-container">
         <div className="reports-summary">

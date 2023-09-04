@@ -5,7 +5,7 @@ from django.db import models
 from app.car_wash_services.models.license_plate import LicensePlate
 from app.car_wash_services.models.type import Type
 from django.utils.translation import gettext as _
-from app.accounts.models.accounts import User
+from app.accounts.models.user import User
 
 
 ###

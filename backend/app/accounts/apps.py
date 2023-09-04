@@ -1,17 +1,6 @@
-"""
-Accounts Apps
-"""
-###
-# Libraries
-###
 from django.apps import AppConfig
 
 
-###
-# Config
-###
-class ServicesConfig(AppConfig):
+class AccountsConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
     name = 'app.accounts'
-
-    def ready(self):
-        import app.accounts.signals

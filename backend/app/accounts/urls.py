@@ -6,6 +6,7 @@ Accounts URL Configuration
 ###
 from django.urls import path, include
 
+
 ###
 # URL Patterns
 ###

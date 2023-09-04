@@ -4,53 +4,31 @@ API V1: Accounts Serializers
 ###
 # Libraries
 ###
-from app.accounts.models.accounts import User
-from rest_auth.models import TokenModel
-from rest_auth.serializers import (
-    UserDetailsSerializer as BaseUserDetailsSerializer,
-    PasswordResetSerializer as BasePasswordResetSerializer,
-)
+from dj_rest_auth.serializers import PasswordResetSerializer
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from app.accounts.forms import CustomResetPasswordForm
 from rest_framework import serializers
-from rest_framework.validators import ValidationError
-
-from app.accounts.forms import (
-    CustomResetPasswordForm,
-)
 
 
 ###
 # Serializers
 ###
-class UserTokenSerializer(serializers.ModelSerializer):
-    user = BaseUserDetailsSerializer()
+class CustomRegisterSerializer(RegisterSerializer):
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
 
-    class Meta:
-        model = TokenModel
-        fields = ('key', 'user',)
-
-
-class ChangeEmailSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
-
-    def validate_email(self, email):
-        user = self.context['request'].user
-
-        if user.email == email:
-            raise ValidationError('Cannot change to the same email.')
-
-        if User.objects.exclude(id=user.id).filter(email=email).exists():
-            raise ValidationError(
-                'Another account already exists with this email.')
-
-        return email
+    def custom_signup(self, request, user):
+        user.first_name = self.validated_data.get('first_name', '')
+        user.last_name = self.validated_data.get('last_name', '')
+        user.save(update_fields=['first_name', 'last_name'])
 
 
-class PasswordResetSerializer(BasePasswordResetSerializer):
+class CustomPasswordResetSerializer(PasswordResetSerializer):
     password_reset_form_class = CustomResetPasswordForm
 
     def get_email_options(self):
         return {
-            'subject_template_name': 'account/password_reset_subject.txt',
-            'email_template_name': 'account/password_reset_message.txt',
-            'html_email_template_name': 'account/password_reset_message.html',
+            'subject_template_name': 'account/reset/password_reset_subject.txt',
+            'email_template_name': 'account/reset/password_reset_message.txt',
+            'html_email_template_name': 'account/reset/password_reset_message.html',
         }

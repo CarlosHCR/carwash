@@ -1,39 +1,94 @@
-from django.urls import path
+##
+# Libraries
+##
+from django.urls import path, re_path
 from rest_framework import routers
-from rest_auth.views import (
+from dj_rest_auth.views import (
     LoginView,
     LogoutView,
-    UserDetailsView,
     PasswordChangeView,
     PasswordResetConfirmView,
     PasswordResetView,
+    UserDetailsView,
 )
-from rest_auth.registration.views import (
+from dj_rest_auth.registration.views import (
     RegisterView,
+    VerifyEmailView,
+    ResendEmailVerificationView,
 )
-from app.accounts.api.v1.views.change_email_views import (
-    ChangeEmailViewSet,
-    ChangeEmailConfirmationViewSet,
-)
+from django.views.generic import TemplateView
+from rest_framework_simplejwt.views import TokenVerifyView
+from dj_rest_auth.jwt_auth import get_refresh_view
 
 # Routers
 router = routers.DefaultRouter()
 
+
 # URLs
 urlpatterns = [
-    path('login/', LoginView.as_view(), name='rest_login'),
-    path('logout/', LogoutView.as_view(), name='rest_logout'),
-    path('user/', UserDetailsView.as_view(), name='rest_user_details'),
-    path('change-password/', PasswordChangeView.as_view(),
-         name='rest_password_change'),
-    path('change-email/<str:uuid>/', ChangeEmailConfirmationViewSet.as_view(),
-         name='change-email-confirmation'),
-    path('change-email/', ChangeEmailViewSet.as_view(), name='change-email'),
-    path('password/reset/', PasswordResetView.as_view(),
-         name='rest_password_reset'),
-    path('password/reset/confirm/', PasswordResetConfirmView.as_view(),
-         name='rest_password_reset_confirm'),
-    path('register/', RegisterView.as_view(), name='rest_register'),
-]
+    # Register
+    path(
+        "register/",
+        RegisterView.as_view(),
+        name="rest_register"
+    ),
+    path(
+        "resend-email/",
+        ResendEmailVerificationView.as_view(),
+        name="rest_resend_email"
+    ),
+    path(
+        "verify-email/",
+        VerifyEmailView.as_view(),
+        name="rest_verify_email"
+    ),
+    re_path(
+        "account-confirm-email/(?P<key>[-:\w]+)/$",
+        VerifyEmailView.as_view(),
+        name='account_confirm_email',
+    ),
+    path(
+        "account-email-verification-sent/",
+        TemplateView.as_view(),
+        name="account_email_verification_sent",
+    ),
 
-urlpatterns += router.urls
+    # Password
+    path(
+        "password/reset/",
+        PasswordResetView.as_view(),
+        name="rest_password_reset"
+    ),
+    path(
+        "password/reset/confirm/<str:uidb64>/<str:token>",
+        PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "password/change/",
+        PasswordChangeView.as_view(),
+        name="rest_password_change"
+    ),
+
+    # Login
+    path(
+        "login/",
+        LoginView.as_view(),
+        name="rest_login"
+    ),
+    path(
+        "logout/",
+        LogoutView.as_view(),
+        name="rest_logout"
+    ),
+    path(
+        "user/",
+        UserDetailsView.as_view(),
+        name="rest_user_details"
+    ),
+
+    # Token
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('token/refresh/', get_refresh_view().as_view(), name='token_refresh'),
+
+]

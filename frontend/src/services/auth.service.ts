@@ -3,12 +3,13 @@ import axios from "axios";
 import {
   getLoginResponse,
   getRegisterResponse,
+  SERVER_ERROR,
 } from "../utils/validationFormResponse";
 
 const setUserLocalStorage = (userData: {
   user: any;
-  access: any;
-  refresh: any;
+  access: string;
+  refresh: String;
 }) => {
   localStorage.setItem("user", JSON.stringify(userData.user));
   localStorage.setItem("accessToken", JSON.stringify(userData.access));
@@ -33,10 +34,8 @@ export const register = async (
       last_name: lastName,
     });
     return response.data;
-  } catch (error: any) {
-    console.log(error);
-    const errorReponse = getRegisterResponse(error);
-    throw new Error(errorReponse);
+  } catch (error: unknown) {
+    throw new Error(getRegisterResponse(error));
   }
 };
 
@@ -48,9 +47,8 @@ export const login = async (username: string, password: string) => {
     });
     setUserLocalStorage(response.data);
     return response.data;
-  } catch (error: any) {
-    const errorReponse = getLoginResponse(error);
-    throw new Error(errorReponse);
+  } catch (error: unknown) {
+    throw new Error(getLoginResponse(error));
   }
 };
 
@@ -61,8 +59,7 @@ export const passwordReset = async (email: string) => {
     });
     return response.data;
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error.response.data.email[0]);
+    throw new Error(SERVER_ERROR);
   }
 };
 

@@ -1,11 +1,12 @@
+import { Button, Container, Grid, Stack } from "@mui/material";
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
 import { RegisterIUser } from "types/user.type";
-import { register } from "services/auth.service";
-import { useNavigate } from "react-router-dom";
 import { RegisterValidation } from "utils/validationForm";
+import { getErro, getSuccess } from "utils/modalErros";
+import { register } from "services/auth.service";
 import FormInput from "components/FormGroup/FormInput";
-import { getSuccess, getErro } from "utils/modalErros";
+import { useNavigate } from "react-router-dom";
 
 const RegisterValues: RegisterIUser = {
   username: "",
@@ -17,51 +18,73 @@ const RegisterValues: RegisterIUser = {
 };
 
 const Register: React.FC = () => {
-  const history = useNavigate();
   const handleRegister = async (formValue: RegisterIUser) => {
-    const { username, email, password1, password2, firstName, lastName } =
-      formValue;
     try {
       await register(
-        username,
-        email,
-        password1,
-        password2,
-        firstName,
-        lastName
+        formValue.username,
+        formValue.email,
+        formValue.password1,
+        formValue.password2,
+        formValue.firstName,
+        formValue.lastName
       );
       getSuccess("Cadastro realizado com sucesso.");
     } catch (error: any) {
       getErro(error.message);
     }
   };
+  const history = useNavigate();
 
   return (
-    <Formik
-      initialValues={RegisterValues}
-      validationSchema={RegisterValidation}
-      onSubmit={handleRegister}
-    >
-      <Form>
-        <FormInput name="username" label="Username" type="text" />
-        <FormInput name="email" label="Email" type="email" />
-        <FormInput name="password1" label="Password" type="password" />
-        <FormInput name="password2" label="Confirm Password" type="password" />
-        <FormInput name="firstName" label="firstName" type="text" />
-        <FormInput name="lastName" label="lastName" type="text" />
-
-        <button type="submit" className="btn btn-primary btn-block">
-          Sign Up
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary btn-block"
-          onClick={() => history("/login")}
+    <Container sx={{ height: "100vh", width: "100%" }}>
+      <Grid
+        item
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
+        <Grid
+          sx={{
+            border: "3px solid #ccc",
+            padding: "10px",
+            maxWidth: "500px",
+            minWidth: "80%",
+            backgroundColor: "white",
+          }}
         >
-          Login
-        </button>
-      </Form>
-    </Formik>
+          <h1>Cadastre-se</h1>
+          <Formik
+            initialValues={RegisterValues}
+            validationSchema={RegisterValidation}
+            onSubmit={handleRegister}
+          >
+            <Form>
+              <Stack spacing={2} direction="row">
+                <FormInput name="firstName" label="Primeiro Nome" type="text" />
+                <FormInput name="lastName" label="Último nome" type="text" />
+              </Stack>
+              <FormInput name="username" label="Nome de usuário" type="text" />
+              <FormInput name="email" label="Email" type="email" />
+              <FormInput name="password1" label="Senha" type="password" />
+              <FormInput
+                name="password2"
+                label="Confirme a senha"
+                type="password"
+              />
+              <Button variant="outlined" type="submit">
+                Cadastrar
+              </Button>
+              <Button variant="outlined" onClick={() => history("/login")}>
+                Login
+              </Button>
+            </Form>
+          </Formik>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

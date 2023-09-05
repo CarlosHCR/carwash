@@ -1,5 +1,6 @@
 const NETWORK_ERROR = "Network Error";
-const SERVER_ERROR = "Erro ao contato o servidor. Tente novamente mais tarde.";
+export const SERVER_ERROR =
+  "Erro ao contato o servidor. Tente novamente mais tarde.";
 const EMAIL_NOT_VERIFIED =
   "E-mail não verificado. Verifique seu e-mail e tente novamente.";
 const INVALID_CREDENTIALS = "Usuário ou senha inválidos.";

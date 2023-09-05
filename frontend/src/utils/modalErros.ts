@@ -5,6 +5,9 @@ export function getSuccess(message: string) {
     title: "Sucesso!",
     text: message,
     icon: "success",
+    customClass: {
+      popup: "custom-sweetalert-popup",
+    },
   });
 }
 
